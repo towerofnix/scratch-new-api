@@ -1,7 +1,9 @@
 language: node
 node_js:
-    - stable
-
+    - 8
+    - 10
+before_install:
+    - 'npm install -g npm@latest'
 script: bash ./deploy.sh
 env:
     global:
