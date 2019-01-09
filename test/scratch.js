@@ -71,7 +71,7 @@ t.test('loginPrompt', async t => {
                 {name: 'username'},
                 {name: 'password', hidden: true}
             ]);
-            return {username, password};
+            return Promise.resolve({username, password});
         }
     });
 

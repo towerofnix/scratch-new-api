@@ -1,12 +1,11 @@
 const fs = require('fs');
 const util = require('util');
-
-/* eslint-disable no-unused-vars */
-const fetch = require('node-fetch');
 const prompt = require('prompt');
-const readFile = util.promisify(fs.readFile);
-const writeFile = util.promisify(fs.writeFile);
-/* eslint-enable no-unused-vars */
+
+const _fetch = require('node-fetch');
+const _prompt = util.promisify(prompt.get);
+const _readFile = util.promisify(fs.readFile);
+const _writeFile = util.promisify(fs.writeFile);
 
 const CookieUtil = require('./util/cookie-util');
 
@@ -61,10 +60,10 @@ class Scratch {
      * @param {function} [config.makeLoginSession] - Function to construct a LoginSession.
      */
     constructor({
-        fetch = fetch,
-        prompt = prompt,
-        readFile = readFile,
-        writeFile = writeFile,
+        fetch = _fetch,
+        prompt = _prompt,
+        readFile = _readFile,
+        writeFile = _writeFile,
         makeLoginSession = (...args) => new LoginSession(...args)
     } = {}) {
         this.fetch = fetch;
@@ -132,7 +131,7 @@ class Scratch {
      * @returns {LoginSession}
      */
     async loginPrompt () {
-        const { username, password } = this.prompt([
+        const { username, password } = await this.prompt([
             {name: 'username'},
             {name: 'password', hidden: true}
         ]);
