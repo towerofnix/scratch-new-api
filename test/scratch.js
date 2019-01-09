@@ -7,7 +7,7 @@ t.test('login', async t => {
     const sessionID = 'fake-sessionID';
     const apiToken = 'fake-apiToken';
     const csrfToken = 'a'; // XXX: Hard-coded in main file!
-    const loginSession = {username, sessionID, apiToken, csrfToken};
+    const loginSession = {username, sessionID, csrfToken, apiToken};
 
     let fetchCalled = false;
     let makeLoginSessionCalled = false;
@@ -36,7 +36,7 @@ t.test('login', async t => {
 
         makeLoginSession: (...args) => {
             makeLoginSessionCalled = true;
-            t.match(args, [username, sessionID, apiToken, csrfToken]);
+            t.match(args, [username, sessionID, csrfToken, apiToken]);
             return loginSession;
         }
     });
@@ -89,8 +89,8 @@ t.test('loginPrompt', async t => {
 
 t.test('loginOrRestore (file not present)', async t => {
     const username = 'fake-username';
-    const csrfToken = 'fake-csrfToken';
     const sessionID = 'fake-sessionID';
+    const csrfToken = 'fake-csrfToken';
     const apiToken = 'fake-apiToken';
     const sessionFile = 'fake-sessionFile';
     const fileContents = {username, csrfToken, sessionID};
@@ -150,7 +150,7 @@ t.test('loginOrRestore (file is present)', async t => {
         },
         makeLoginSession: (...args) => {
             makeLoginSessionCalled = true;
-            t.match(args, [username, sessionID, apiToken, csrfToken]);
+            t.match(args, [username, sessionID, csrfToken, apiToken]);
             return loginSession;
         },
         writeFile: t.fail

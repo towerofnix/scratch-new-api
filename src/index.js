@@ -16,10 +16,10 @@ class LoginSession {
     /**
      * @param {string} username - The session's username.
      * @param {string} sessionID - The session ID cookie, used for authorization under some API endpoints.
-     * @param {string} apiToken - The session's API token, used as authorization on https://api.scratch.mit.edu.
      * @param {string} csrfToken - The session's CSRF token, used for access to some API endpoints.
+     * @param {string} apiToken - The session's API token, used as authorization on https://api.scratch.mit.edu.
      */
-    constructor(username, sessionID, apiToken, csrfToken) {
+    constructor(username, sessionID, csrfToken, apiToken) {
         /**
          * Username of the logged in user.
          * @type {string}
@@ -33,16 +33,16 @@ class LoginSession {
         this.sessionID = sessionID;
 
         /**
-         * API token, used for authorization on https://api.scratch.mit.edu.
-         * @type {string}
-         */
-        this.apiToken = apiToken;
-
-        /**
          * CSRF token, used for access to some API endpoints.
          * @type {string}
          */
         this.csrfToken = csrfToken;
+
+        /**
+         * API token, used for authorization on https://api.scratch.mit.edu.
+         * @type {string}
+         */
+        this.apiToken = apiToken;
     }
 }
 
@@ -106,7 +106,7 @@ class Scratch {
 
         const apiToken = await this._fetchAPIToken(sessionID);
 
-        return this.makeLoginSession(username, sessionID, apiToken, csrfToken);
+        return this.makeLoginSession(username, sessionID,  csrfToken, apiToken);
     }
 
     /**
@@ -147,7 +147,7 @@ class Scratch {
         try {
             const { username, sessionID, csrfToken } = JSON.parse(await this.readFile(sessionFile));
             const apiToken = await this._fetchAPIToken(sessionID);
-            return this.makeLoginSession(username, sessionID, apiToken, csrfToken);
+            return this.makeLoginSession(username, sessionID, csrfToken, apiToken);
         } catch (error) {
             if (error.code === 'ENOENT') {
                 const userSession = await this.loginPrompt();
