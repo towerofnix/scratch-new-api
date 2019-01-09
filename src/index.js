@@ -145,9 +145,9 @@ class Scratch {
      */
     async loginOrRestore (sessionFile='.scratchSession') {
         try {
-            const session = JSON.parse(await this.readFile(sessionFile));
-            session.apiToken = await this._fetchAPIToken(session.sessionID);
-            return session;
+            const { username, sessionID, csrfToken } = JSON.parse(await this.readFile(sessionFile));
+            const apiToken = await this._fetchAPIToken(sessionID);
+            return this.makeLoginSession(username, sessionID, apiToken, csrfToken);
         } catch (error) {
             if (error.code === 'ENOENT') {
                 const userSession = await this.loginPrompt();
@@ -161,3 +161,4 @@ class Scratch {
 }
 
 module.exports = Scratch;
+module.exports.LoginSession = LoginSession;

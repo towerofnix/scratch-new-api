@@ -140,12 +140,18 @@ t.test('loginOrRestore (file is present)', async t => {
 
     let readFileCalled = false;
     let fetchAPITokenCalled = false;
+    let makeLoginSessionCalled = false;
 
     const scratch = new Scratch({
         readFile: filename => {
             readFileCalled = true;
             t.is(filename, sessionFile);
             return JSON.stringify(fileContents);
+        },
+        makeLoginSession: (...args) => {
+            makeLoginSessionCalled = true;
+            t.match(args, [username, sessionID, apiToken, csrfToken]);
+            return loginSession;
         },
         writeFile: t.fail
     });
@@ -161,5 +167,6 @@ t.test('loginOrRestore (file is present)', async t => {
     const result = await scratch.loginOrRestore(sessionFile);
     t.match(result, loginSession);
     t.true(readFileCalled);
+    t.true(makeLoginSessionCalled);
     t.true(fetchAPITokenCalled);
 });
