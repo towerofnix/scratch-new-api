@@ -1,5 +1,5 @@
 const t = require('tap');
-const Scratch = require('../src/index');
+const Scratch = require('../src/scratch');
 
 t.test('login', async t => {
     const username = 'fake-username';
