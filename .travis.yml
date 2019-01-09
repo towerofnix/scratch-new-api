@@ -1,0 +1,11 @@
+language: node_js
+node_js:
+    - 8
+    - 10
+before_install:
+    - 'npm install -g npm@latest'
+script: bash ./deploy.sh
+env:
+    global:
+        - ENCRYPTION_LABEL: "823030436da4"
+        - COMMIT_AUTHOR_EMAIL: "towerofnix@gmail.com"
