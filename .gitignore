@@ -1,4 +1,10 @@
-/docs
 /node_modules
+
+# Build
+/docs
+/out
 /.nyc_output
+
+# Private
+/deploy_key
 /.scratchSession
