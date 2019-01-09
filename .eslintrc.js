@@ -12,7 +12,7 @@ module.exports = {
         'eqeqeq': ['error'],
         'indent': ['error', 4],
         'linebreak-style': ['error', 'unix'],
-        'no-console': ['off'],
+        'no-console': ['error'],
         'no-trailing-spaces': ['error'],
         'no-var': ['error'],
         'prefer-const': ['error'],
