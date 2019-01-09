@@ -4,8 +4,13 @@ node_js:
     - 10
 before_install:
     - 'npm install -g npm@latest'
-script: bash ./deploy.sh
 env:
     global:
         - ENCRYPTION_LABEL: "823030436da4"
         - COMMIT_AUTHOR_EMAIL: "towerofnix@gmail.com"
+jobs:
+    include:
+        - stage: test
+          script: npm run test
+        - stage: deploy docs
+          script: bash ./deploy.sh
