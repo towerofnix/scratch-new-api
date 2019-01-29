@@ -1,5 +1,6 @@
 const t = require('tap');
 const Scratch = require('../src/scratch');
+const CookieUtil = require('../src/util/cookie-util');
 
 t.test('login', async t => {
     const username = 'fake-username';
@@ -10,7 +11,7 @@ t.test('login', async t => {
     const loginSession = {username, sessionID, csrfToken, apiToken};
 
     let fetchCalled = false;
-    let makeLoginSessionCalled = false;
+    let loginSessionCalled = false;
     let fetchAPITokenCalled = false;
 
     const scratch = new Scratch({
@@ -34,8 +35,8 @@ t.test('login', async t => {
             });
         },
 
-        makeLoginSession: (...args) => {
-            makeLoginSessionCalled = true;
+        LoginSession: function(...args) {
+            loginSessionCalled = true;
             t.match(args, [username, sessionID, csrfToken, apiToken]);
             return loginSession;
         }
@@ -49,9 +50,56 @@ t.test('login', async t => {
 
     const result = await scratch.login(username, password);
     t.true(fetchCalled);
-    t.true(makeLoginSessionCalled);
+    t.true(loginSessionCalled);
     t.true(fetchAPITokenCalled);
     t.match(result, loginSession);
+});
+
+t.test('login (failure)', async t => {
+    const username = 'fake-username';
+    const password = 'fake-password';
+
+    const scratch = new Scratch({
+        fetch: () => {
+            return Promise.resolve({
+                json: () => Promise.resolve([
+                    [
+                        {success: false, msg: 'Incorrect password.'}
+                    ]
+                ])
+            });
+        }
+    });
+
+    t.rejects(() => scratch.login(username, password));
+});
+
+t.test('_fetchAPIToken', async t => {
+    const sessionID = 'fake-sessionID';
+    const apiToken = 'fake-apiToken';
+
+    let fetchCalled = false;
+
+    const scratch = new Scratch({
+        fetch: (url, config) => {
+            fetchCalled = true;
+            t.is(url, 'https://scratch.mit.edu/session');
+            t.match(CookieUtil.parse(config.headers['Cookie']), {scratchsessionsid: sessionID});
+            return Promise.resolve({
+                json: () => Promise.resolve(
+                    {
+                        user: {
+                            token: apiToken
+                        }
+                    }
+                )
+            });
+        }
+    });
+
+    const result = await scratch._fetchAPIToken(sessionID);
+    t.true(fetchCalled);
+    t.is(result, apiToken);
 });
 
 t.test('loginPrompt', async t => {
@@ -140,7 +188,7 @@ t.test('loginOrRestore (file is present)', async t => {
 
     let readFileCalled = false;
     let fetchAPITokenCalled = false;
-    let makeLoginSessionCalled = false;
+    let loginSessionCalled = false;
 
     const scratch = new Scratch({
         readFile: filename => {
@@ -148,8 +196,8 @@ t.test('loginOrRestore (file is present)', async t => {
             t.is(filename, sessionFile);
             return JSON.stringify(fileContents);
         },
-        makeLoginSession: (...args) => {
-            makeLoginSessionCalled = true;
+        LoginSession: function(...args) {
+            loginSessionCalled = true;
             t.match(args, [username, sessionID, csrfToken, apiToken]);
             return loginSession;
         },
@@ -166,7 +214,23 @@ t.test('loginOrRestore (file is present)', async t => {
 
     const result = await scratch.loginOrRestore(sessionFile);
     t.true(readFileCalled);
-    t.true(makeLoginSessionCalled);
+    t.true(loginSessionCalled);
     t.true(fetchAPITokenCalled);
     t.match(result, loginSession);
+});
+
+t.test('loginOrRestore (some other error)', async t => {
+    let readFileCalled = false;
+
+    const scratch = new Scratch({
+        readFile: () => {
+            readFileCalled = true;
+            const err = new Error();
+            err.code = 'EACCES';
+            throw err;
+        }
+    });
+
+    t.rejects(() => scratch.loginOrRestore('fake-sessionFile'));
+    t.true(readFileCalled);
 });

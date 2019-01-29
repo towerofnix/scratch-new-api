@@ -8,7 +8,7 @@ const _readFile = util.promisify(fs.readFile);
 const _writeFile = util.promisify(fs.writeFile);
 
 const CookieUtil = require('./util/cookie-util');
-const LoginSession = require('./login-session');
+const _LoginSession = require('./login-session');
 
 /**
  * Class containing methods for interacting with the Scratch API.
@@ -21,20 +21,20 @@ class Scratch {
      * @param {function} [config.prompt] - Function to use for prompting input from the user.
      * @param {function} [config.readFile] - Function to use for reading a file.
      * @param {function} [config.writeFile] - Function to use for writing a file.
-     * @param {function} [config.makeLoginSession] - Function to construct a LoginSession.
+     * @param {function} [config.LoginSession] - Class to use as a LoginSession.
      */
     constructor({
         fetch = _fetch,
         prompt = _prompt,
         readFile = _readFile,
         writeFile = _writeFile,
-        makeLoginSession = (...args) => new LoginSession(...args)
+        LoginSession = _LoginSession
     } = {}) {
         this.fetch = fetch;
-        this.makeLoginSession = makeLoginSession;
         this.prompt = prompt;
         this.readFile = readFile;
         this.writeFile = writeFile;
+        this.LoginSession = LoginSession;
     }
 
     /**
@@ -70,7 +70,7 @@ class Scratch {
 
         const apiToken = await this._fetchAPIToken(sessionID);
 
-        return this.makeLoginSession(username, sessionID,  csrfToken, apiToken);
+        return new this.LoginSession(username, sessionID,  csrfToken, apiToken);
     }
 
     /**
@@ -111,7 +111,7 @@ class Scratch {
         try {
             const { username, sessionID, csrfToken } = JSON.parse(await this.readFile(sessionFile));
             const apiToken = await this._fetchAPIToken(sessionID);
-            return this.makeLoginSession(username, sessionID, csrfToken, apiToken);
+            return new this.LoginSession(username, sessionID, csrfToken, apiToken);
         } catch (error) {
             if (error.code === 'ENOENT') {
                 const userSession = await this.loginPrompt();
@@ -124,6 +124,6 @@ class Scratch {
     }
 }
 
-Scratch.LoginSession = LoginSession;
+Scratch.LoginSession = _LoginSession;
 
 module.exports = Scratch;
