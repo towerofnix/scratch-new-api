@@ -48,10 +48,10 @@ t.test('login', async t => {
     };
 
     const result = await scratch.login(username, password);
-    t.match(result, loginSession);
     t.true(fetchCalled);
     t.true(makeLoginSessionCalled);
     t.true(fetchAPITokenCalled);
+    t.match(result, loginSession);
 });
 
 t.test('loginPrompt', async t => {
@@ -82,9 +82,9 @@ t.test('loginPrompt', async t => {
     };
 
     const result = await scratch.loginPrompt();
-    t.is(result, loginSession);
     t.true(promptCalled);
     t.true(loginCalled);
+    t.is(result, loginSession);
 });
 
 t.test('loginOrRestore (file not present)', async t => {
@@ -123,10 +123,10 @@ t.test('loginOrRestore (file not present)', async t => {
     scratch._fetchAPIToken = t.fail;
 
     const result = await scratch.loginOrRestore(sessionFile);
-    t.is(result, loginSession);
     t.true(readFileCalled);
     t.true(writeFileCalled);
     t.true(loginPromptCalled);
+    t.is(result, loginSession);
 });
 
 t.test('loginOrRestore (file is present)', async t => {
@@ -165,8 +165,8 @@ t.test('loginOrRestore (file is present)', async t => {
     scratch.loginPrompt = t.fail;
 
     const result = await scratch.loginOrRestore(sessionFile);
-    t.match(result, loginSession);
     t.true(readFileCalled);
     t.true(makeLoginSessionCalled);
     t.true(fetchAPITokenCalled);
+    t.match(result, loginSession);
 });
