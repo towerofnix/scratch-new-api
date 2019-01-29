@@ -9,6 +9,7 @@ const _writeFile = util.promisify(fs.writeFile);
 
 const CookieUtil = require('./util/cookie-util');
 const _LoginSession = require('./login-session');
+const _User = require('./user');
 
 /**
  * Class containing methods for interacting with the Scratch API.
@@ -22,19 +23,29 @@ class Scratch {
      * @param {function} [config.readFile] - Function to use for reading a file.
      * @param {function} [config.writeFile] - Function to use for writing a file.
      * @param {function} [config.LoginSession] - Class to use as a LoginSession.
+     * @param {function} [config.User] - Class to use as a User.
      */
     constructor({
         fetch = _fetch,
         prompt = _prompt,
         readFile = _readFile,
         writeFile = _writeFile,
-        LoginSession = _LoginSession
+        LoginSession = _LoginSession,
+        User = _User
     } = {}) {
         this.fetch = fetch;
         this.prompt = prompt;
         this.readFile = readFile;
         this.writeFile = writeFile;
         this.LoginSession = LoginSession;
+        this.User = User;
+
+        /**
+         * Mapping of usernames to User objects for use by {@link Scratch#getUser}.
+         * @type {Map<string,User>}
+         * @private
+         */
+        this._userMap = new Map();
     }
 
     /**
@@ -104,7 +115,7 @@ class Scratch {
 
     /**
      * Log into Scratch. If a session file is present, attempt to restore the session from it.
-     * @param {string} [sessionFile=.scratchSession] - the file to save/restore the session from
+     * @param {string} [sessionFile=.scratchSession] - The file to save/restore the session from.
      * @returns {LoginSession}
      */
     async loginOrRestore (sessionFile='.scratchSession') {
@@ -122,8 +133,25 @@ class Scratch {
             }
         }
     }
+
+    /**
+     * Gets the user object that corresponds to the given username, creating it if not already present.
+     * @param {string} username - The username. Not case-sensitive.
+     * @returns {User}
+     */
+    getUser(username) {
+        const key = username.toLowerCase();
+        if (this._userMap.has(key)) {
+            return this._userMap.get(key);
+        } else {
+            const user = new this.User({username});
+            this._userMap.set(key, user);
+            return user;
+        }
+    }
 }
 
 Scratch.LoginSession = _LoginSession;
+Scratch.User = _User;
 
 module.exports = Scratch;

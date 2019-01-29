@@ -258,3 +258,28 @@ t.test('loginOrRestore (default file)', async t => {
     t.rejects(() => scratch.loginOrRestore());
     t.true(readFileCalled);
 });
+
+t.test('getUser', async t => {
+    const username = 'fake-username';
+    const user = {username};
+
+    let userCalled = true;
+
+    const scratch = new Scratch({
+        User: function(config) {
+            userCalled = true;
+            t.match(config, {username});
+            return user;
+        }
+    });
+
+    const result1 = await scratch.getUser(username);
+    t.true(userCalled);
+    t.is(result1, user);
+
+    // Calling it again should reuse the same object.
+    userCalled = false;
+    const result2 = await scratch.getUser(username);
+    t.false(userCalled);
+    t.is(result2, result1);
+});
