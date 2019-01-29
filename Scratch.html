@@ -26,7 +26,7 @@
 
 <nav >
     
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="CookieUtil.html">CookieUtil</a><ul class='methods'><li data-type='method'><a href="CookieUtil.html#.parse">parse</a></li></ul></li><li><a href="LoginSession.html">LoginSession</a></li><li><a href="Scratch.html">Scratch</a><ul class='methods'><li data-type='method'><a href="Scratch.html#_fetchAPIToken">_fetchAPIToken</a></li><li data-type='method'><a href="Scratch.html#login">login</a></li><li data-type='method'><a href="Scratch.html#loginOrRestore">loginOrRestore</a></li><li data-type='method'><a href="Scratch.html#loginPrompt">loginPrompt</a></li></ul></li><li><a href="User.html">User</a><ul class='methods'><li data-type='method'><a href="User.html#getAPIDetail">getAPIDetail</a></li><li data-type='method'><a href="User.html#getBio">getBio</a></li><li data-type='method'><a href="User.html#getCountry">getCountry</a></li><li data-type='method'><a href="User.html#getID">getID</a></li><li data-type='method'><a href="User.html#getJoinDate">getJoinDate</a></li><li data-type='method'><a href="User.html#getScratchTeamStatus">getScratchTeamStatus</a></li><li data-type='method'><a href="User.html#getStatus">getStatus</a></li><li data-type='method'><a href="User.html#getUsername">getUsername</a></li><li data-type='method'><a href="User.html#loadAPIDetails">loadAPIDetails</a></li></ul></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="CookieUtil.html">CookieUtil</a><ul class='methods'><li data-type='method'><a href="CookieUtil.html#.parse">parse</a></li></ul></li><li><a href="LoginSession.html">LoginSession</a></li><li><a href="Scratch.html">Scratch</a><ul class='methods'><li data-type='method'><a href="Scratch.html#_fetchAPIToken">_fetchAPIToken</a></li><li data-type='method'><a href="Scratch.html#getUser">getUser</a></li><li data-type='method'><a href="Scratch.html#login">login</a></li><li data-type='method'><a href="Scratch.html#loginOrRestore">loginOrRestore</a></li><li data-type='method'><a href="Scratch.html#loginPrompt">loginPrompt</a></li></ul></li><li><a href="User.html">User</a><ul class='methods'><li data-type='method'><a href="User.html#getAPIDetail">getAPIDetail</a></li><li data-type='method'><a href="User.html#getBio">getBio</a></li><li data-type='method'><a href="User.html#getCountry">getCountry</a></li><li data-type='method'><a href="User.html#getID">getID</a></li><li data-type='method'><a href="User.html#getJoinDate">getJoinDate</a></li><li data-type='method'><a href="User.html#getScratchTeamStatus">getScratchTeamStatus</a></li><li data-type='method'><a href="User.html#getStatus">getStatus</a></li><li data-type='method'><a href="User.html#getUsername">getUsername</a></li><li data-type='method'><a href="User.html#loadAPIDetails">loadAPIDetails</a></li></ul></li></ul>
 </nav>
 
 <div id="main">
@@ -365,6 +365,39 @@
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>User</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Class to use as a User.</p></td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -404,6 +437,78 @@
 
     
 
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id="_userMap"><span class="type-signature">(private) </span>_userMap<span class="type-signature"> :Map.&lt;string, <a href="User.html">User</a>></span></h4>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Mapping of usernames to User objects for use by <a href="Scratch.html#getUser">Scratch#getUser</a>.</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Map.&lt;string, <a href="User.html">User</a>></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+        
     
 
     
@@ -553,6 +658,152 @@
     <dd>
         
 <span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="getUser"><span class="type-signature"></span>getUser<span class="signature">(username)</span><span class="type-signature"> &rarr; {<a href="User.html">User</a>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Gets the user object that corresponds to the given username, creating it if not already present.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>username</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The username. Not case-sensitive.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="User.html">User</a></span>
 
 
     </dd>
@@ -856,7 +1107,7 @@
                 </td>
             
 
-            <td class="description last"><p>the file to save/restore the session from</p></td>
+            <td class="description last"><p>The file to save/restore the session from.</p></td>
         </tr>
 
     
