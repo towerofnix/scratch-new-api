@@ -2,6 +2,11 @@ const t = require('tap');
 const Scratch = require('../src/scratch');
 const CookieUtil = require('../src/util/cookie-util');
 
+t.test('constructor (no injected dependencies)', t => {
+    new Scratch();
+    t.done();
+});
+
 t.test('login', async t => {
     const username = 'fake-username';
     const password = 'fake-password';
@@ -232,5 +237,24 @@ t.test('loginOrRestore (some other error)', async t => {
     });
 
     t.rejects(() => scratch.loginOrRestore('fake-sessionFile'));
+    t.true(readFileCalled);
+});
+
+t.test('loginOrRestore (default file)', async t => {
+    const expectedDefaultFile = '.scratchSession';
+
+    let readFileCalled = false;
+
+    const scratch = new Scratch({
+        readFile: filename => {
+            readFileCalled = true;
+            t.is(filename, expectedDefaultFile);
+            // Just throw an error - this is the simplest way to get out of loginOrRestore's other behavior.
+            // TODO: Is there a more typical, "clean" way to stop executing a test once a certain condition has been met..?
+            throw new Error();
+        }
+    });
+
+    t.rejects(() => scratch.loginOrRestore());
     t.true(readFileCalled);
 });
