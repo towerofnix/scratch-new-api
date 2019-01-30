@@ -1,5 +1,5 @@
 const _fetch = require('node-fetch');
-const StreamUtil = require('./util/stream-util');
+const _StreamUtil = require('./util/stream-util');
 
 /**
  * Class representing a Scratch website user.
@@ -9,12 +9,15 @@ class User {
      * @param {object} config - Configuration.
      * @param {string} config.username - The user's username.
      * @param {function} [config.fetch] - Function to use for fetching data.
+     * @param {function} [config.StreamUtil] - Class to use in place of StreamUtil.
      */
     constructor({
         username,
-        fetch = _fetch
+        fetch = _fetch,
+        StreamUtil = _StreamUtil
     }) {
         this.fetch = fetch;
+        this.StreamUtil = StreamUtil;
 
         /**
          * Username to be used for fetching API details regarding the user.
@@ -121,7 +124,7 @@ class User {
      * @yields {string}
      */
     getFollowing() {
-        return StreamUtil.userStream(`users/${this._username}/following`);
+        return this.StreamUtil.userStream(`users/${this._username}/following`);
     }
 
     /**
@@ -131,7 +134,7 @@ class User {
      * @yields {string}
      */
     getFollowers() {
-        return StreamUtil.userStream(`users/${this._username}/followers`);
+        return this.StreamUtil.userStream(`users/${this._username}/followers`);
     }
 
     /**
@@ -142,7 +145,7 @@ class User {
      * @yields {number}
      */
     getSharedProjects() {
-        return StreamUtil.projectStream(`users/${this._username}/projects`);
+        return this.StreamUtil.projectStream(`users/${this._username}/projects`);
     }
 }
 
