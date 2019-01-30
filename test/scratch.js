@@ -250,7 +250,8 @@ t.test('loginOrRestore (default file)', async t => {
             readFileCalled = true;
             t.is(filename, expectedDefaultFile);
             // Just throw an error - this is the simplest way to get out of loginOrRestore's other behavior.
-            // TODO: Is there a more typical, "clean" way to stop executing a test once a certain condition has been met..?
+            // TODO: Is there a more typical, "clean" way to stop executing a test once a certain condition has
+            // been met..?
             throw new Error();
         }
     });
