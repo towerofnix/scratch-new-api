@@ -7,7 +7,7 @@ scratch-new-api (TBD name) is a work-in-progress library for interfacing with th
 ```js
 const scratch = new Scratch();
 const user = scratch.getUser('griffpatch');
-for await (const username of user.getFollowers()) {
+for await (const { username } of user.getFollowers()) {
     console.log(username);
     // Artificial delay: don't make hundreds of fetches all at once! :)
     await delay(250);

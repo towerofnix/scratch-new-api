@@ -54,27 +54,45 @@ class StreamUtil {
         return basicStream(() => {
             const curOffset = offset;
             offset += pageSize;
-            return fetch(`https://api.scratch.mit.edu/${baseEndpoint}?offset=${curOffset}&count=${pageSize}`)
+            return fetch(`https://api.scratch.mit.edu/${baseEndpoint}?offset=${curOffset}&limit=${pageSize}`)
                 .then(response => response.json())
                 .then(results => results.map(transformResult));
         });
     }
 
     /**
-     * Fetch a stream of users from the Scratch API.
+     * Fetch a stream of usernames from the Scratch API.
      * @param {string} baseEndpoint - Base string to use in fetch URL.
      * @param {object} [config] - Configuration.
-     * @param {function} [config.apiStream] - Function to use in place of apiSTream.
+     * @param {function} [config.apiStream] - Function to use in place of apiStream.
      * @async
      * @generator
-     * @yields {string}
+     * @yields {object} (TODO: Typedef? Format is {username}.)
      */
     static userStream(baseEndpoint, {
         apiStream = StreamUtil.apiStream
     } = {}) {
         return apiStream({
             baseEndpoint,
-            transformResult: result => result.username
+            transformResult: result => ({username: result.username})
+        });
+    }
+
+    /**
+     * Fetch a stream of project IDs and names from the Scratch API.
+     * @param {string} baseEndpoint - Base string to use in fetch URL.
+     * @param {object} [config] - Configuration.
+     * @param {function} [config.apiStream] - Function to use in place of apiStream.
+     * @async
+     * @generator
+     * @yields {object} (TODO: Typedef? Format is {id, title}.)
+     */
+    static projectStream(baseEndpoint, {
+        apiStream = StreamUtil.apiStream
+    } = {}) {
+        return apiStream({
+            baseEndpoint,
+            transformResult: result => ({id: result.id, title: result.title})
         });
     }
 }

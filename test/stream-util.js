@@ -39,7 +39,7 @@ tap.test('apiStream', async t => {
         pageSize,
         fetch: url => {
             const page = data[callCounter];
-            t.is(url, `https://api.scratch.mit.edu/${baseEndpoint}?offset=${callCounter * pageSize}&count=${pageSize}`);
+            t.is(url, `https://api.scratch.mit.edu/${baseEndpoint}?offset=${callCounter * pageSize}&limit=${pageSize}`);
             callCounter++;
 
             return Promise.resolve({
@@ -68,7 +68,26 @@ tap.test('userStream', async t => {
         apiStream: (config) => {
             apiCalled = true;
             t.match(config, {baseEndpoint});
-            t.is(config.transformResult({username: 'Armadillo'}), 'Armadillo');
+            t.match(config.transformResult({username: 'Armadillo'}), {username: 'Armadillo'});
+            return generator;
+        }
+    });
+
+    t.true(apiCalled);
+    t.is(result, generator);
+});
+
+tap.test('projectStream', async t => {
+    const baseEndpoint = 'fake-endpoint';
+    const generator = {};
+
+    let apiCalled = false;
+
+    const result = StreamUtil.projectStream(baseEndpoint, {
+        apiStream: (config) => {
+            apiCalled = true;
+            t.match(config, {baseEndpoint});
+            t.match(config.transformResult({id: 123, title: 'Apple'}), {id: 123, title: 'Apple'});
             return generator;
         }
     });

@@ -133,6 +133,17 @@ class User {
     getFollowers() {
         return StreamUtil.userStream(`users/${this._username}/followers`);
     }
+
+    /**
+     * Gets the projects that have been created and shared by the user.
+     * Due to a limitation in the Scratch API, yields from oldest to newest.
+     * @async
+     * @generator
+     * @yields {number}
+     */
+    getSharedProjects() {
+        return StreamUtil.projectStream(`users/${this._username}/projects`);
+    }
 }
 
 module.exports = User;
