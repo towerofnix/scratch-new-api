@@ -1,51 +1,13 @@
 const t = require('tap');
 const User = require('../src/user');
 
-t.test('loadAPIDetails', async t => {
+t.test('API endpoint', t => {
     const username = 'fake-username';
-    const responseData = {username};
 
-    let fetchCalled = false;
+    const user = new User({username});
 
-    const user = new User({
-        username,
-        fetch: url => {
-            fetchCalled = true;
-            t.is(url, 'https://api.scratch.mit.edu/users/' + username);
-            return Promise.resolve({
-                json: () => Promise.resolve(responseData)
-            });
-        }
-    });
-
-    await user.loadAPIDetails();
-    t.true(fetchCalled);
-    t.is(user.apiDetails, responseData);
-
-    // Call a second time - should not do anything.
-    fetchCalled = false;
-    await user.loadAPIDetails();
-    t.false(fetchCalled);
-    t.is(user.apiDetails, responseData);
-});
-
-t.test('getAPIDetail', async t => {
-    const passedUsername = 'fake-passed-username';
-    const trueUsername = 'fake-true-username';
-    const apiDetails = {username: trueUsername};
-
-    let loadCalled = false;
-
-    const user = new User({username: passedUsername});
-
-    user.loadAPIDetails = () => {
-        loadCalled = true;
-        user.apiDetails = apiDetails;
-    };
-
-    const result = await user.getAPIDetail('username');
-    t.true(loadCalled);
-    t.is(result, trueUsername);
+    t.is(user.getEndpoint(), 'users/' + username);
+    t.done();
 });
 
 t.test('Basic API details', async t => {
@@ -87,7 +49,6 @@ t.test('Basic API details', async t => {
 
     async function testDetail(expectedKey, func) {
         let getCalled = false;
-
 
         user.getAPIDetail = key => {
             getCalled = true;

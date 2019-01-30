@@ -1,22 +1,25 @@
-const _fetch = require('node-fetch');
+const APIDocument = require('./util/api-document');
+
 const _StreamUtil = require('./util/stream-util');
 
 /**
  * Class representing a Scratch website user.
  */
-class User {
+class User extends APIDocument {
     /**
      * @param {object} config - Configuration.
      * @param {string} config.username - The user's username.
      * @param {function} [config.fetch] - Function to use for fetching data.
      * @param {function} [config.StreamUtil] - Class to use in place of StreamUtil.
      */
-    constructor({
-        username,
-        fetch = _fetch,
-        StreamUtil = _StreamUtil
-    }) {
-        this.fetch = fetch;
+    constructor(config) {
+        super(config);
+
+        const {
+            username,
+            StreamUtil = _StreamUtil
+        } = config;
+
         this.StreamUtil = StreamUtil;
 
         /**
@@ -25,36 +28,10 @@ class User {
          * @private
          */
         this._username = username;
-
-        /**
-         * Data about the user fetched from the API by {@link User#loadAPIDetails}.
-         * @type {object?}
-         */
-        this.apiDetails = null;
     }
 
-    /**
-     * If not already present, fetch the API details of the user from the API. Usually doesn't need to be called
-     * manually; prefer to use a more specific function instead, like {@link User#getUsername}.
-     */
-    async loadAPIDetails() {
-        if (!this.apiDetails) {
-            const response = await this.fetch('https://api.scratch.mit.edu/users/' + this._username);
-
-            // TODO: Deal with error codes, ala 404.
-
-            const apiDetails = await response.json();
-            this.apiDetails = apiDetails;
-        }
-    }
-
-    /**
-     * Get a specific detail (JSON data property) from the API, [loading]{@link User#loadAPIDetails} if necessary.
-     * @returns {any}
-     */
-    async getAPIDetail(key) {
-        await this.loadAPIDetails();
-        return this.apiDetails[key];
+    getEndpoint() {
+        return 'users/' + this._username;
     }
 
     /**
