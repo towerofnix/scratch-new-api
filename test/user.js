@@ -1,6 +1,8 @@
 const t = require('tap');
 const User = require('../src/user');
 
+const { makeTestDetailFunction } = require('./helper/util');
+
 t.test('API endpoint', t => {
     const username = 'fake-username';
 
@@ -35,6 +37,8 @@ t.test('Basic API details', async t => {
 
     const user = new User({username: 'fake-passed-username'});
 
+    const testDetail = makeTestDetailFunction(t, user, apiDetails);
+
     t.is(await testDetail('id', user.getID), id);
     t.is(await testDetail('username', user.getUsername), username);
     t.is(await testDetail('scratchteam', user.getScratchTeamStatus), scratchteam);
@@ -46,20 +50,6 @@ t.test('Basic API details', async t => {
     t.is(await testDetail('profile', user.getStatus), status);
     t.is(await testDetail('profile', user.getBio), bio);
     t.is(await testDetail('profile', user.getCountry), country);
-
-    async function testDetail(expectedKey, func) {
-        let getCalled = false;
-
-        user.getAPIDetail = key => {
-            getCalled = true;
-            t.is(key, expectedKey);
-            return apiDetails[expectedKey];
-        };
-
-        const result = await func.call(user);
-        t.true(getCalled);
-        return result;
-    }
 });
 
 t.test('Stream functions', t => {

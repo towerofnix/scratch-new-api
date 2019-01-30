@@ -9,7 +9,6 @@ class User extends APIDocument {
     /**
      * @param {object} config - Configuration.
      * @param {string} config.username - The user's username.
-     * @param {function} [config.fetch] - Function to use for fetching data.
      * @param {function} [config.StreamUtil] - Class to use in place of StreamUtil.
      */
     constructor(config) {

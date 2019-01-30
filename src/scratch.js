@@ -9,6 +9,7 @@ const _writeFile = util.promisify(fs.writeFile);
 
 const CookieUtil = require('./util/cookie-util');
 const _LoginSession = require('./login-session');
+const _Project = require('./project');
 const _User = require('./user');
 
 /**
@@ -152,6 +153,7 @@ class Scratch {
 }
 
 Scratch.LoginSession = _LoginSession;
+Scratch.Project = _Project;
 Scratch.User = _User;
 
 module.exports = Scratch;
