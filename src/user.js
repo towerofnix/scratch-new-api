@@ -1,5 +1,5 @@
 const _fetch = require('node-fetch');
-const streamUtil = require('./util/stream-util');
+const StreamUtil = require('./util/stream-util');
 
 /**
  * Class representing a Scratch website user.
@@ -121,7 +121,7 @@ class User {
      * @yields {string}
      */
     getFollowing() {
-        return streamUtil.users(`users/${this._username}/following`);
+        return StreamUtil.userStream(`users/${this._username}/following`);
     }
 
     /**
@@ -131,7 +131,7 @@ class User {
      * @yields {string}
      */
     getFollowers() {
-        return streamUtil.users(`users/${this._username}/followers`);
+        return StreamUtil.userStream(`users/${this._username}/followers`);
     }
 }
 

@@ -1,7 +1,7 @@
 const tap = require('tap');
-const streamUtil = require('../src/util/stream-util');
+const StreamUtil = require('../src/util/stream-util');
 
-tap.test('basicStreamUtil', async t => {
+tap.test('basicStream', async t => {
     const data = [
         [1, 2, 3],
         [4, 5, 6],
@@ -9,7 +9,7 @@ tap.test('basicStreamUtil', async t => {
         []
     ];
 
-    const generator = streamUtil.basicStreamUtil(() => {
+    const generator = StreamUtil.basicStream(() => {
         return data.shift();
     });
 
@@ -21,7 +21,7 @@ tap.test('basicStreamUtil', async t => {
     t.is(counter, 9);
 });
 
-tap.test('apiStreamUtil', async t => {
+tap.test('apiStream', async t => {
     const data = [
         [{x: 'A'}, {x: 'B'}, {x: 'C'}],
         [{x: 'D'}, {x: 'E'}, {x: 'F'}],
@@ -33,7 +33,7 @@ tap.test('apiStreamUtil', async t => {
 
     let callCounter = 0;
 
-    const generator = streamUtil({
+    const generator = StreamUtil.apiStream({
         baseEndpoint,
         transformResult: result => result.x,
         pageSize,
@@ -58,14 +58,14 @@ tap.test('apiStreamUtil', async t => {
     t.is(resultCounter, 6);
 });
 
-tap.test('users', async t => {
+tap.test('userStream', async t => {
     const baseEndpoint = 'fake-endpoint';
     const generator = {};
 
     let apiCalled = false;
 
-    const result = streamUtil.users(baseEndpoint, {
-        apiStreamUtil: (config) => {
+    const result = StreamUtil.userStream(baseEndpoint, {
+        apiStream: (config) => {
             apiCalled = true;
             t.match(config, {baseEndpoint});
             t.is(config.transformResult({username: 'Armadillo'}), 'Armadillo');
