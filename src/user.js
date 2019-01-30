@@ -1,4 +1,5 @@
 const _fetch = require('node-fetch');
+const streamUtil = require('./util/stream-util');
 
 /**
  * Class representing a Scratch website user.
@@ -111,6 +112,26 @@ class User {
     async getCountry() {
         const profile = await this.getAPIDetail('profile');
         return profile.country;
+    }
+
+    /**
+     * Gets the usernames of those the user is following. Yields from newest to oldest.
+     * @async
+     * @generator
+     * @yields {string}
+     */
+    getFollowing() {
+        return streamUtil.users(`users/${this._username}/following`);
+    }
+
+    /**
+     * Gets the usernames of those that follow the user. Yields from newest to oldest.
+     * @async
+     * @generator
+     * @yields {string}
+     */
+    getFollowers() {
+        return streamUtil.users(`users/${this._username}/followers`);
     }
 }
 
