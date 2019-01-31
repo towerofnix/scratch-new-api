@@ -94,7 +94,7 @@ class Project extends APIDocument {
      * Gets the date/time when the project was created.
      * @returns {Date}
      */
-    async getCreateDate() {
+    async getDateCreated() {
         return this._getDate('created');
     }
 
@@ -102,7 +102,7 @@ class Project extends APIDocument {
      * Gets the date/time when the project was last modified.
      * @returns {Date}
      */
-    async getModifyDate() {
+    async getDateModified() {
         return this._getDate('modified');
     }
 
@@ -110,7 +110,7 @@ class Project extends APIDocument {
      * Gets the date/time when the project was shared.
      * @returns {Date}
      */
-    async getShareDate() {
+    async getDateShared() {
         return this._getDate('shared');
     }
 

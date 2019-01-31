@@ -52,9 +52,9 @@ t.test('_getDate-based API details', async t => {
         t.true(result instanceof Date);
     };
 
-    await testDateDetail('created', project.getCreateDate);
-    await testDateDetail('modified', project.getModifyDate);
-    await testDateDetail('shared', project.getShareDate);
+    await testDateDetail('created', project.getDateCreated);
+    await testDateDetail('modified', project.getDateModified);
+    await testDateDetail('shared', project.getDateShared);
 });
 
 t.test('Basic API details', async t => {

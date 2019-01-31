@@ -43,7 +43,7 @@ t.test('Basic API details', async t => {
     t.is(await testDetail('username', user.getUsername), username);
     t.is(await testDetail('scratchteam', user.getScratchTeamStatus), scratchteam);
 
-    const resultDate = await testDetail('history', user.getJoinDate);
+    const resultDate = await testDetail('history', user.getDateJoined);
     t.true(resultDate instanceof Date);
     t.is(resultDate.getTime(), new Date(joined).getTime());
 

@@ -61,7 +61,7 @@ class User extends APIDocument {
      * Gets the date/time when the user joined Scratch.
      * @returns {Date}
      */
-    async getJoinDate() {
+    async getDateJoined() {
         const history = await this.getAPIDetail('history');
         return new Date(history.joined);
     }
