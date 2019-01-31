@@ -808,7 +808,7 @@ parameter is optional, you probably don't need to worry about it - just let it u
 
     
 
-    <h4 class="name" id="getProject"><span class="type-signature"></span>getProject<span class="signature">(id)</span><span class="type-signature"> &rarr; {<a href="Project.html">Project</a>}</span></h4>
+    <h4 class="name" id="getProject"><span class="type-signature"></span>getProject<span class="signature">(initialDetails)</span><span class="type-signature"> &rarr; {<a href="Project.html">Project</a>}</span></h4>
 
     
 
@@ -866,10 +866,59 @@ parameter is optional, you probably don't need to worry about it - just let it u
 
 
 
+    <h5>Examples</h5>
+    
+    <pre class="prettyprint"><code>scratch.getProject({id: 276660597})</code></pre>
+
+    <pre class="prettyprint"><code>scratch.getProject(await user.getFeaturedProject())</code></pre>
+
+
 
 
     <h5>Parameters:</h5>
     
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>initialDetails</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
 
 <table class="params">
     <thead>
@@ -916,6 +965,13 @@ parameter is optional, you probably don't need to worry about it - just let it u
     </tbody>
 </table>
 
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
 
 
 
@@ -954,7 +1010,7 @@ parameter is optional, you probably don't need to worry about it - just let it u
 
     
 
-    <h4 class="name" id="getUser"><span class="type-signature"></span>getUser<span class="signature">(username)</span><span class="type-signature"> &rarr; {<a href="User.html">User</a>}</span></h4>
+    <h4 class="name" id="getUser"><span class="type-signature"></span>getUser<span class="signature">(initialDetails)</span><span class="type-signature"> &rarr; {<a href="User.html">User</a>}</span></h4>
 
     
 
@@ -1012,10 +1068,59 @@ parameter is optional, you probably don't need to worry about it - just let it u
 
 
 
+    <h5>Examples</h5>
+    
+    <pre class="prettyprint"><code>scratch.getUser({username: 'mres'})</code></pre>
+
+    <pre class="prettyprint"><code>scratch.getUser(await project.getAuthor())</code></pre>
+
+
 
 
     <h5>Parameters:</h5>
     
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>initialDetails</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Initially known API details.</p>
+                <h6>Properties</h6>
+                
 
 <table class="params">
     <thead>
@@ -1056,6 +1161,13 @@ parameter is optional, you probably don't need to worry about it - just let it u
             
 
             <td class="description last"><p>The username. Not case-sensitive.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     

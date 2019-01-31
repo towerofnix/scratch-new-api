@@ -53,7 +53,7 @@
         <article><h1>scratch-new-api</h1><p>scratch-new-api (TBD name) is a work-in-progress library for interfacing with the Scratch API and website. Inspired by trumank's <a href="https://github.com/trumank/scratch-api">scratch-api</a> and spawning from <a href="https://github.com/towerofnix/scratch-api-unofficial-docs/">my</a> <a href="https://github.com/towerofnix/scratch-client-omg">previous</a> <a href="https://git.ed1.club/florrie/scratchrlol.git/">projects</a> related to the Scratch API, scratch-new-api makes use of modern, documented, unit-tested code to provide a reliable interface to Scratch.</p>
 <p><strong>Disclaimer: This library is a WIP. Its API isn't yet finalized.</strong> There is likely still active development going on, and functions and classes may still be modified in breaking ways.</p>
 <h2>Examples</h2><pre class="prettyprint source lang-js"><code>const scratch = new Scratch();
-const user = scratch.getUser('griffpatch');
+const user = scratch.getUser({username: 'griffpatch'});
 for await (const { username } of user.getFollowers()) {
     console.log(username);
     // Artificial delay: don't make hundreds of fetches all at once! :)
@@ -62,6 +62,14 @@ for await (const { username } of user.getFollowers()) {
 
 function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
+}</code></pre><pre class="prettyprint source lang-js"><code>const scratch = new Scratch();
+const user = scratch.getUser({username: 'griffpatch'});
+for await (const projectData of user.getSharedProjects()) {
+    const project = scratch.getProject(projectData);
+    const title = await project.getTitle();
+    const stats = await project.getStats();
+    console.log(`${title}: ${stats.loves} love-its, ${stats.views} views`);
+    await delay(250);
 }</code></pre></article>
     </section>
 
