@@ -97,8 +97,7 @@ t.test('Stream functions', t => {
 
     let passedEndpoint;
 
-    const project = new Project({
-        id,
+    const project = new Project({id}, {
         StreamUtil: {
             projectStream: baseEndpoint => {
                 passedEndpoint = baseEndpoint;

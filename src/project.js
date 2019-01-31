@@ -17,15 +17,15 @@ const _StreamUtil = require('./util/stream-util');
  */
 class Project extends APIDocument {
     /**
-     * @param {object} config - Configuration.
-     * @param {number} config.id - The project's ID.
+     * @param {object} initialDetails
+     * @param {number} initialDetails.id - The project's ID.
+     * @param {object} [config] - Configuration.
      * @param {function} [config.StreamUtil] - Class to use in place of StreamUtil.
      */
-    constructor(config) {
-        super(config);
+    constructor(initialDetails, config = {}) {
+        super(initialDetails, config);
 
         const {
-            id,
             StreamUtil = _StreamUtil
         } = config;
 
@@ -36,7 +36,7 @@ class Project extends APIDocument {
          * @type {number}
          * @private
          */
-        this._id = id;
+        this._id = initialDetails.id;
     }
 
     getEndpoint() {

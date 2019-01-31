@@ -7,15 +7,15 @@ const _StreamUtil = require('./util/stream-util');
  */
 class User extends APIDocument {
     /**
-     * @param {object} config - Configuration.
-     * @param {string} config.username - The user's username.
+     * @param {object} initialDetails - Initially known API details.
+     * @param {object} initialDetails.username - The user's username.
+     * @param {object} [config] - Configuration.
      * @param {function} [config.StreamUtil] - Class to use in place of StreamUtil.
      */
-    constructor(config) {
-        super(config);
+    constructor(initialDetails, config = {}) {
+        super(initialDetails, config);
 
         const {
-            username,
             StreamUtil = _StreamUtil
         } = config;
 
@@ -26,7 +26,12 @@ class User extends APIDocument {
          * @type {string}
          * @private
          */
-        this._username = username;
+        this._username = initialDetails.username;
+
+        // Delete the username from the initial details - the passed username (and the one used for fetching data from
+        // the API) is case-insensitive, but in order to return an accurate value, the correct letter-case can be
+        // guaranteed by always initially fetching the username from the API.
+        delete this.apiDetails.username;
     }
 
     getEndpoint() {

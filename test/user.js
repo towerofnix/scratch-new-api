@@ -59,8 +59,7 @@ t.test('Stream functions', t => {
 
     let passedEndpoint;
 
-    const user = new User({
-        username,
+    const user = new User({username}, {
         StreamUtil: {
             userStream: baseEndpoint => {
                 passedEndpoint = baseEndpoint;
@@ -84,3 +83,16 @@ t.test('Stream functions', t => {
 
     t.done();
 });
+
+t.test('username is always fetched, even if initially provided', async t => {
+    const initialDetails = {username: 'FAKE-username'};
+    const fullDetails = {username: 'fake-username'};
+    const user = new User(initialDetails);
+
+    user.loadAPIDetails = () => {
+        user.apiDetails = fullDetails;
+    };
+
+    t.is(await user.getAPIDetail('username'), 'fake-username');
+});
+

@@ -7,7 +7,7 @@ t.test('loadAPIDetails', async t => {
 
     let fetchCalled = false;
 
-    const doc = new APIDocument({
+    const doc = new APIDocument({}, {
         fetch: url => {
             fetchCalled = true;
             t.is(url, 'https://api.scratch.mit.edu/' + endpoint);
@@ -31,7 +31,7 @@ t.test('loadAPIDetails', async t => {
 });
 
 t.test('loadAPIDetails (no endpoint)', async t => {
-    const doc = new APIDocument({
+    const doc = new APIDocument({}, {
         fetch: () => {
             throw new Error('fetch should not be called');
         }
@@ -59,3 +59,31 @@ t.test('getAPIDetail', async t => {
     t.is(result, animal);
 });
 
+t.test('getAPIDetail - details initially present', async t => {
+    const animal = 'armadillo';
+    const fruit = 'orange';
+    const initialDetails = {animal};
+    const fullDetails = {animal, fruit};
+
+    const doc = new APIDocument(initialDetails);
+
+    doc.loadAPIDetails = () => {
+        throw new Error('loadAPIDetails should not be called');
+    };
+
+    const result1 = await doc.getAPIDetail('animal');
+    t.is(result1, animal);
+
+    // Calling with a new property SHOULD call loadAPIDetails though.
+
+    let loadCalled = false;
+
+    doc.loadAPIDetails = () => {
+        loadCalled = true;
+        doc.apiDetails = fullDetails;
+    };
+
+    const result2 = await doc.getAPIDetail('fruit');
+    t.true(loadCalled);
+    t.is(result2, fruit);
+});

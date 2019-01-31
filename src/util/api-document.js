@@ -15,12 +15,14 @@ class APIDocument {
     // updated with these new values? I'm thinking *probably*; I'm just not 100% certain yet. Is there merit to
     // keeping project API documents basically immutable? Maybe, but probably not worth the benefits of being
     // updated automatically (or even the confusion/semi-mutable results of manually updating the details).
+    // [This is what I decided to do, yeah. Keeping the comment around for future reference.]
 
     /**
+     * @param {object} [initialDetails] - Initially known API details.
      * @param {object} [config] - Configuration.
      * @param {function} [config.fetch] - Function to use for fetching data.
      */
-    constructor({
+    constructor(initialDetails = {}, {
         fetch = _fetch
     } = {}) {
         this.fetch = fetch;
@@ -29,7 +31,13 @@ class APIDocument {
          * Data about the document fetched from the API by {@link APIDocument#loadAPIDetails}.
          * @type {object?}
          */
-        this.apiDetails = null;
+        this.apiDetails = initialDetails;
+
+        /**
+         * Flag telling whether the full document has been fetched from the API and stored in apiDetails
+         * (i.e. the content specified in {@link APIDocument#getEndpoint}.
+         */
+        this.hasFetchedFullDetails = false;
     }
 
     /**
@@ -46,13 +54,15 @@ class APIDocument {
      * manually; prefer to use a more specific function instead, like {@link User#getUsername}.
      */
     async loadAPIDetails() {
-        if (!this.apiDetails) {
+        if (!this.hasFetchedFullDetails) {
             const response = await this.fetch('https://api.scratch.mit.edu/' + this.getEndpoint());
 
             // TODO: Deal with error codes, ala 404.
 
             const apiDetails = await response.json();
             this.apiDetails = apiDetails;
+
+            this.hasFetchedFullDetails = true;
         }
     }
 
@@ -62,7 +72,10 @@ class APIDocument {
      * @returns {any}
      */
     async getAPIDetail(key) {
-        await this.loadAPIDetails();
+        if (!(key in this.apiDetails)) {
+            await this.loadAPIDetails();
+        }
+
         return this.apiDetails[key];
     }
 }
