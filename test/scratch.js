@@ -260,27 +260,88 @@ t.test('loginOrRestore (default file)', async t => {
     t.true(readFileCalled);
 });
 
-t.test('getUser', async t => {
+t.test('_userMap is passed correct function', t => {
     const username = 'fake-username';
-    const user = {username};
-
-    let userCalled = true;
+    const user = {};
 
     const scratch = new Scratch({
         User: function(config) {
-            userCalled = true;
             t.match(config, {username});
             return user;
+        },
+        CacheMap: function(func) {
+            return {func};
         }
     });
 
-    const result1 = await scratch.getUser(username);
-    t.true(userCalled);
+    const result = scratch._userMap.func(username);
+    t.is(result, user);
+
+    t.done();
+});
+
+t.test('_projectMap is passed correct function', t => {
+    const id = 1;
+    const project = {};
+
+    const scratch = new Scratch({
+        Project: function(config) {
+            t.match(config, {id});
+            return project;
+        },
+        CacheMap: function(func) {
+            return {func};
+        }
+    });
+
+    const result = scratch._projectMap.func(id);
+    t.is(result, project);
+
+    t.done();
+});
+
+t.test('getUser manipulates keys correctly', t => {
+    const username = 'fake-username';
+    const user = {};
+
+    const scratch = new Scratch();
+
+    scratch._userMap = {
+        get: key => {
+            t.is(key, username);
+            return user;
+        }
+    };
+
+    const result1 = scratch.getUser(username);
     t.is(result1, user);
 
-    // Calling it again should reuse the same object.
-    userCalled = false;
-    const result2 = await scratch.getUser(username);
-    t.false(userCalled);
-    t.is(result2, result1);
+    // Should be case-insensitive, too!
+    const result2 = scratch.getUser(username.toUpperCase());
+    t.is(result2, user);
+
+    t.done();
+});
+
+t.test('getProject manipulates keys correctly', t => {
+    const id = 1;
+    const project = {};
+
+    const scratch = new Scratch();
+
+    scratch._projectMap = {
+        get: key => {
+            t.is(key, id);
+            return project;
+        }
+    };
+
+    const result1 = scratch.getProject(id);
+    t.is(result1, project);
+
+    // Should accept strings, too.
+    const result2 = scratch.getProject(id.toString());
+    t.is(result2, project);
+
+    t.done();
 });

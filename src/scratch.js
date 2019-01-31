@@ -8,12 +8,13 @@ const _readFile = util.promisify(fs.readFile);
 const _writeFile = util.promisify(fs.writeFile);
 
 const CookieUtil = require('./util/cookie-util');
+const _CacheMap = require('./util/cache-map');
 const _LoginSession = require('./login-session');
 const _Project = require('./project');
 const _User = require('./user');
 
 /**
- * Class containing methods for interacting with the Scratch API.
+ * Top-level class containing methods for interacting with the Scratch API.
  */
 class Scratch {
     /**
@@ -23,7 +24,9 @@ class Scratch {
      * @param {function} [config.prompt] - Function to use for prompting input from the user.
      * @param {function} [config.readFile] - Function to use for reading a file.
      * @param {function} [config.writeFile] - Function to use for writing a file.
+     * @param {function} [config.CacheMap] - Class to use as a CacheMap.
      * @param {function} [config.LoginSession] - Class to use as a LoginSession.
+     * @param {function} [config.Project] - Class to use as a Project.
      * @param {function} [config.User] - Class to use as a User.
      */
     constructor({
@@ -31,7 +34,9 @@ class Scratch {
         prompt = _prompt,
         readFile = _readFile,
         writeFile = _writeFile,
+        CacheMap = _CacheMap,
         LoginSession = _LoginSession,
+        Project = _Project,
         User = _User
     } = {}) {
         this.fetch = fetch;
@@ -39,14 +44,20 @@ class Scratch {
         this.readFile = readFile;
         this.writeFile = writeFile;
         this.LoginSession = LoginSession;
-        this.User = User;
 
         /**
-         * Mapping of usernames to User objects for use by {@link Scratch#getUser}.
+         * Mapping of usernames to {@link User} objects for use by {@link Scratch#getUser}.
          * @type {Map<string,User>}
          * @private
          */
-        this._userMap = new Map();
+        this._userMap = new CacheMap(username => new User({username}));
+
+        /**
+         * Mapping of IDs to {@link Project} objects for use by {@link Scratch#getProject}.
+         * @type {Map<string,Project>}
+         * @private
+         */
+        this._projectMap = new CacheMap(id => new Project({id}));
     }
 
     /**
@@ -141,14 +152,16 @@ class Scratch {
      * @returns {User}
      */
     getUser(username) {
-        const key = username.toLowerCase();
-        if (this._userMap.has(key)) {
-            return this._userMap.get(key);
-        } else {
-            const user = new this.User({username});
-            this._userMap.set(key, user);
-            return user;
-        }
+        return this._userMap.get(username.toLowerCase());
+    }
+
+    /**
+     * Gets the project object that corresponds to the given ID, creating it if not already present.
+     * @param {number} id - The project ID.
+     * @returns {Project}
+     */
+    getProject(id) {
+        return this._projectMap.get(parseInt(id));
     }
 }
 
