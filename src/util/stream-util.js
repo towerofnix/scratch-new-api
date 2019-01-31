@@ -33,19 +33,19 @@ class StreamUtil {
     /**
      * Fetch data from the Scratch API. Automatically deals with Scratch API's "pagination". Takes a variety of
      * customization options.
-     * @param {object}   config - Configuration.
-     * @param {string}   config.baseEndpoint - Base string to use in fetch URL.
-     * @param {function} config.transformResult - Function to transform API results into output format.
-     * @param {number}   [config.pageSize=40] - Number of results to request from Scratch API.
-     * @param {function} [config.fetch] - Function to use for fetching data.
-     * @param {function} [config.basicStream] - Function to use in place of basicStream.
+     * @param {object}    config - Configuration.
+     * @param {string}    config.baseEndpoint - Base string to use in fetch URL.
+     * @param {?function} [config.transformResult] - Function to transform API results into output format.
+     * @param {number}    [config.pageSize=40] - Number of results to request from Scratch API.
+     * @param {function}  [config.fetch] - Function to use for fetching data.
+     * @param {function}  [config.basicStream] - Function to use in place of basicStream.
      * @async
      * @generator
      * @yields {any}
      */
     static apiStream({
         baseEndpoint,
-        transformResult,
+        transformResult = null,
         pageSize = 40,
         fetch = _fetch,
         basicStream = StreamUtil.basicStream
@@ -56,7 +56,7 @@ class StreamUtil {
             offset += pageSize;
             return fetch(`https://api.scratch.mit.edu/${baseEndpoint}?offset=${curOffset}&limit=${pageSize}`)
                 .then(response => response.json())
-                .then(results => results.map(transformResult));
+                .then(results => transformResult ? results.map(transformResult) : results);
         });
     }
 
@@ -73,8 +73,7 @@ class StreamUtil {
         apiStream = StreamUtil.apiStream
     } = {}) {
         return apiStream({
-            baseEndpoint,
-            transformResult: result => ({username: result.username})
+            baseEndpoint
         });
     }
 
@@ -91,8 +90,7 @@ class StreamUtil {
         apiStream = StreamUtil.apiStream
     } = {}) {
         return apiStream({
-            baseEndpoint,
-            transformResult: result => ({id: result.id, title: result.title})
+            baseEndpoint
         });
     }
 }

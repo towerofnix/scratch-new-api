@@ -19,3 +19,15 @@ function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 ```
+
+```js
+const scratch = new Scratch();
+const user = scratch.getUser({username: 'griffpatch'});
+for await (const projectData of user.getSharedProjects()) {
+    const project = scratch.getProject(projectData);
+    const title = await project.getTitle();
+    const stats = await project.getStats();
+    console.log(`${title}: ${stats.loves} love-its, ${stats.views} views`);
+    await delay(250);
+}
+```

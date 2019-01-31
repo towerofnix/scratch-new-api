@@ -68,7 +68,6 @@ tap.test('userStream', async t => {
         apiStream: (config) => {
             apiCalled = true;
             t.match(config, {baseEndpoint});
-            t.match(config.transformResult({username: 'Armadillo'}), {username: 'Armadillo'});
             return generator;
         }
     });
@@ -87,7 +86,6 @@ tap.test('projectStream', async t => {
         apiStream: (config) => {
             apiCalled = true;
             t.match(config, {baseEndpoint});
-            t.match(config.transformResult({id: 123, title: 'Apple'}), {id: 123, title: 'Apple'});
             return generator;
         }
     });
