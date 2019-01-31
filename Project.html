@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>User - Documentation</title>
+    <title>Project - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -31,7 +31,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">User</h1>
+    <h1 class="page-title">Project</h1>
     
 
     
@@ -44,10 +44,10 @@
 <header>
     
         <h2>
-        User
+        Project
         </h2>
         
-            <div class="class-description"><p>Class representing a Scratch website user.</p></div>
+            <div class="class-description"><p>Class representing a Scratch project.</p></div>
         
     
 </header>
@@ -62,7 +62,7 @@
     <h2>Constructor</h2>
     
 
-    <h4 class="name" id="User"><span class="type-signature"></span>new User<span class="signature">(config)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Project"><span class="type-signature"></span>new Project<span class="signature">(config)</span><span class="type-signature"></span></h4>
 
     
 
@@ -173,8 +173,6 @@
         <th>Type</th>
 
         
-        <th>Attributes</th>
-        
 
         
 
@@ -187,64 +185,23 @@
 
         <tr>
             
-                <td class="name"><code>username</code></td>
+                <td class="name"><code>id</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">number</span>
 
 
             
             </td>
 
             
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
 
             
 
-            <td class="description last"><p>The user's username.</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>StreamUtil</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>Class to use in place of StreamUtil.</p></td>
+            <td class="description last"><p>The project's ID.</p></td>
         </tr>
 
     
@@ -292,7 +249,7 @@
 
         
             
-<h4 class="name" id="_username"><span class="type-signature">(private) </span>_username<span class="type-signature"> :string</span></h4>
+<h4 class="name" id="_id"><span class="type-signature">(private) </span>_id<span class="type-signature"> :number</span></h4>
 
 
 
@@ -338,7 +295,7 @@
 
 
 <div class="description">
-    <p>Username to be used for fetching API details regarding the user.</p>
+    <p>ID to be used for fetching API details regarding the project.</p>
 </div>
 
 
@@ -347,7 +304,7 @@
     <ul>
         <li>
             
-<span class="param-type">string</span>
+<span class="param-type">number</span>
 
 
         </li>
@@ -369,7 +326,7 @@
 
     
 
-    <h4 class="name" id="getBio"><span class="type-signature">(async) </span>getBio<span class="signature">()</span><span class="type-signature"> &rarr; {string}</span></h4>
+    <h4 class="name" id="_getDate"><span class="type-signature">(async, private) </span>_getDate<span class="signature">(key)</span><span class="type-signature"> &rarr; {Date}</span></h4>
 
     
 
@@ -416,7 +373,153 @@
 
 
 <div class="description">
-    <p>Gets the user's bio (&quot;about me&quot;).</p>
+    <p>Helper function to retrieve a date related to the project.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>key</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Property to get from history API detail.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Date</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="getAuthor"><span class="type-signature">(async) </span>getAuthor<span class="signature">()</span><span class="type-signature"> &rarr; {string}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Gets the username of the project's author.</p>
 </div>
 
 
@@ -466,7 +569,7 @@
 
     
 
-    <h4 class="name" id="getCountry"><span class="type-signature">(async) </span>getCountry<span class="signature">()</span><span class="type-signature"> &rarr; {string}</span></h4>
+    <h4 class="name" id="getCreateDate"><span class="type-signature">(async) </span>getCreateDate<span class="signature">()</span><span class="type-signature"> &rarr; {Date}</span></h4>
 
     
 
@@ -513,7 +616,7 @@
 
 
 <div class="description">
-    <p>Gets the user's country.</p>
+    <p>Gets the date/time when the project was created.</p>
 </div>
 
 
@@ -549,171 +652,13 @@
     </dt>
     <dd>
         
-<span class="param-type">string</span>
+<span class="param-type">Date</span>
 
 
     </dd>
 </dl>
 
     
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="getFollowers"><span class="type-signature">(async, generator) </span>getFollowers<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    <p>Gets the usernames of those that follow the user. Yields from newest to oldest.</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="getFollowing"><span class="type-signature">(async, generator) </span>getFollowing<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    <p>Gets the usernames of those the user is following. Yields from newest to oldest.</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         
@@ -768,7 +713,7 @@
 
 
 <div class="description">
-    <p>Gets the user's ID.</p>
+    <p>Gets the project's ID.</p>
 </div>
 
 
@@ -818,7 +763,7 @@
 
     
 
-    <h4 class="name" id="getJoinDate"><span class="type-signature">(async) </span>getJoinDate<span class="signature">()</span><span class="type-signature"> &rarr; {Date}</span></h4>
+    <h4 class="name" id="getInstructions"><span class="type-signature">(async) </span>getInstructions<span class="signature">()</span><span class="type-signature"> &rarr; {string}</span></h4>
 
     
 
@@ -865,7 +810,104 @@
 
 
 <div class="description">
-    <p>Gets the date/time when the user joined Scratch.</p>
+    <p>Gets the project's &quot;Instructions&quot; content.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="getModifyDate"><span class="type-signature">(async) </span>getModifyDate<span class="signature">()</span><span class="type-signature"> &rarr; {Date}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Gets the date/time when the project was last modified.</p>
 </div>
 
 
@@ -915,7 +957,7 @@
 
     
 
-    <h4 class="name" id="getScratchTeamStatus"><span class="type-signature">(async) </span>getScratchTeamStatus<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    <h4 class="name" id="getNotesAndCredits"><span class="type-signature">(async) </span>getNotesAndCredits<span class="signature">()</span><span class="type-signature"> &rarr; {string}</span></h4>
 
     
 
@@ -962,184 +1004,7 @@
 
 
 <div class="description">
-    <p>Gets whether the user is part of the Scratch Team or not.</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">boolean</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="getSharedProjects"><span class="type-signature">(async, generator) </span>getSharedProjects<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    <p>Gets the projects that have been created and shared by the user.
-Due to a limitation in the Scratch API, yields from oldest to newest.</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="getStatus"><span class="type-signature">(async) </span>getStatus<span class="signature">()</span><span class="type-signature"> &rarr; {string}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    <p>Gets the user's status (&quot;what I'm working on&quot;).</p>
+    <p>Gets the project's &quot;Notes and Credits&quot; content.</p>
 </div>
 
 
@@ -1189,7 +1054,7 @@ Due to a limitation in the Scratch API, yields from oldest to newest.</p>
 
     
 
-    <h4 class="name" id="getUsername"><span class="type-signature">(async) </span>getUsername<span class="signature">()</span><span class="type-signature"> &rarr; {string}</span></h4>
+    <h4 class="name" id="getShareDate"><span class="type-signature">(async) </span>getShareDate<span class="signature">()</span><span class="type-signature"> &rarr; {Date}</span></h4>
 
     
 
@@ -1236,7 +1101,298 @@ Due to a limitation in the Scratch API, yields from oldest to newest.</p>
 
 
 <div class="description">
-    <p>Gets the user's username.</p>
+    <p>Gets the date/time when the project was shared.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Date</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="getStats"><span class="type-signature">(async) </span>getStats<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="Project.html#~ProjectStats">Project~ProjectStats</a>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Gets the project's various stats - number of love-its, comments, etc.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="Project.html#~ProjectStats">Project~ProjectStats</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="getThumbnailURL"><span class="type-signature">(async) </span>getThumbnailURL<span class="signature">()</span><span class="type-signature"> &rarr; {string}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Gets the URL to be used as the thumbnail for the project.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="getTitle"><span class="type-signature">(async) </span>getTitle<span class="signature">()</span><span class="type-signature"> &rarr; {string}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Gets the project's title.</p>
 </div>
 
 
@@ -1284,6 +1440,222 @@ Due to a limitation in the Scratch API, yields from oldest to newest.</p>
         
     
 
+    
+        <h3 class="subsection-title">Type Definitions</h3>
+
+        
+                
+<h4 class="name" id="~ProjectStats">ProjectStats</h4>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>views</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Number of views (unique users who have clicked the green flag to start the project).</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>loves</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Number of love-its.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>favorites</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Number of favorites.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>comments</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Number of comments left on the project.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>remixes</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Number of shared remixes.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<div class="description">
+    <p>Object containing information about project community stats.</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+            
     
 
     
