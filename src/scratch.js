@@ -53,14 +53,14 @@ class Scratch {
          * @type {Map<string,User>}
          * @private
          */
-        this._userMap = new CacheMap(username => new User({username}));
+        this._userMap = new CacheMap((_, initialDetails) => new User(initialDetails));
 
         /**
          * Mapping of IDs to {@link Project} objects for use by {@link Scratch#getProject}.
          * @type {Map<string,Project>}
          * @private
          */
-        this._projectMap = new CacheMap(id => new Project({id}));
+        this._projectMap = new CacheMap((_, initialDetails) => new Project(initialDetails));
     }
 
     /**
@@ -151,20 +151,28 @@ class Scratch {
 
     /**
      * Gets the user object that corresponds to the given username, creating it if not already present.
-     * @param {string} username - The username. Not case-sensitive.
+     * @example scratch.getUser({username: 'mres'})
+     * @example scratch.getUser(await project.getAuthor())
+     * @param {object} initialDetails - Initially known API details.
+     * @param {string} initialDetails.username - The username. Not case-sensitive.
      * @returns {User}
      */
-    getUser(username) {
-        return this._userMap.get(username.toLowerCase());
+    getUser(initialDetails) {
+        const { username } = initialDetails;
+        return this._userMap.get(username.toLowerCase(), initialDetails);
     }
 
     /**
      * Gets the project object that corresponds to the given ID, creating it if not already present.
-     * @param {number} id - The project ID.
+     * @example scratch.getProject({id: 276660597})
+     * @example scratch.getProject(await user.getFeaturedProject())
+     * @param {object} initialDetails
+     * @param {number} initialDetails.id - The project ID.
      * @returns {Project}
      */
-    getProject(id) {
-        return this._projectMap.get(parseInt(id));
+    getProject(initialDetails) {
+        const { id } = initialDetails;
+        return this._projectMap.get(parseInt(id), initialDetails);
     }
 }
 

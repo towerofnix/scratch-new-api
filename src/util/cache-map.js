@@ -15,12 +15,13 @@ class CacheMap {
      * Get an entry in the map. If there is no such entry, the createEntryFunc parameter passed in the constructor is
      * called, and its result is recorded in the map and then returned.
      * @param {any} key - Key to use for referring to the entry.
+     * @param {any} [...args] - Additional arguments to be passed to createEntryFunc.
      */
-    get(key) {
+    get(key, ...args) {
         if (this._map.has(key)) {
             return this._map.get(key);
         } else {
-            const entry = this._createEntryFunc(key);
+            const entry = this._createEntryFunc(key, ...args);
             this._map.set(key, entry);
             return entry;
         }

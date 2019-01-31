@@ -128,6 +128,10 @@ class User extends APIDocument {
     getSharedProjects() {
         return this.StreamUtil.projectStream(`users/${this._username}/projects`);
     }
+
+    getFeaturedProject() {
+        // TODO
+    }
 }
 
 module.exports = User;

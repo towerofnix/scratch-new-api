@@ -274,7 +274,7 @@ t.test('_userMap is passed correct function', t => {
         }
     });
 
-    const result = scratch._userMap.func(username);
+    const result = scratch._userMap.func(username, {username});
     t.is(result, user);
 
     t.done();
@@ -294,7 +294,7 @@ t.test('_projectMap is passed correct function', t => {
         }
     });
 
-    const result = scratch._projectMap.func(id);
+    const result = scratch._projectMap.func(id, {id});
     t.is(result, project);
 
     t.done();
@@ -313,11 +313,11 @@ t.test('getUser manipulates keys correctly', t => {
         }
     };
 
-    const result1 = scratch.getUser(username);
+    const result1 = scratch.getUser({username});
     t.is(result1, user);
 
     // Should be case-insensitive, too!
-    const result2 = scratch.getUser(username.toUpperCase());
+    const result2 = scratch.getUser({username: username.toUpperCase()});
     t.is(result2, user);
 
     t.done();
@@ -336,11 +336,11 @@ t.test('getProject manipulates keys correctly', t => {
         }
     };
 
-    const result1 = scratch.getProject(id);
+    const result1 = scratch.getProject({id});
     t.is(result1, project);
 
     // Should accept strings, too.
-    const result2 = scratch.getProject(id.toString());
+    const result2 = scratch.getProject({id: id.toString()});
     t.is(result2, project);
 
     t.done();
