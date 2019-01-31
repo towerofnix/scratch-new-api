@@ -4,6 +4,18 @@ const _fetch = require('node-fetch');
  * Basic class representing any individual "document" that can be fetched from the Scratch API.
  */
 class APIDocument {
+    // TODO: We should be able to pass a variety of initial data. For example, when a project is listed in the
+    // user's shared projects endpoint, it comes with most of the data that composes a full project object.
+    // Rather than relying on an additional fetch, we should use those details when possible. This only raises
+    // a question of how we want to implement the getProject() (and getUser(), etc) methods on the Scratch class.
+    // We will need to be able to pass all details; we'd still use, for example, the project ID as the key.
+    // And, the first time that project ID is gotten, the CacheMap will be updated with the data passed.
+    // But suppose, on a later call, different property values are passed - for example, if a project has been
+    // "loved" since it was initially put into the CacheMap. Should the project object stored in CacheMap be
+    // updated with these new values? I'm thinking *probably*; I'm just not 100% certain yet. Is there merit to
+    // keeping project API documents basically immutable? Maybe, but probably not worth the benefits of being
+    // updated automatically (or even the confusion/semi-mutable results of manually updating the details).
+
     /**
      * @param {object} [config] - Configuration.
      * @param {function} [config.fetch] - Function to use for fetching data.

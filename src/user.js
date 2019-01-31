@@ -118,7 +118,7 @@ class User extends APIDocument {
      * Due to a limitation in the Scratch API, yields from oldest to newest.
      * @async
      * @generator
-     * @yields {number}
+     * @yields {object}
      */
     getSharedProjects() {
         return this.StreamUtil.projectStream(`users/${this._username}/projects`);

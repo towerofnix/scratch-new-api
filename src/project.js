@@ -1,5 +1,7 @@
 const APIDocument = require('./util/api-document');
 
+const _StreamUtil = require('./util/stream-util');
+
 /**
  * Object containing information about project community stats.
  * @typedef {object} Project~ProjectStats
@@ -17,16 +19,24 @@ class Project extends APIDocument {
     /**
      * @param {object} config - Configuration.
      * @param {number} config.id - The project's ID.
+     * @param {function} [config.StreamUtil] - Class to use in place of StreamUtil.
      */
     constructor(config) {
         super(config);
+
+        const {
+            id,
+            StreamUtil = _StreamUtil
+        } = config;
+
+        this.StreamUtil = StreamUtil;
 
         /**
          * ID to be used for fetching API details regarding the project.
          * @type {number}
          * @private
          */
-        this._id = config.id;
+        this._id = id;
     }
 
     getEndpoint() {
@@ -123,6 +133,17 @@ class Project extends APIDocument {
     async _getDate(key) {
         const history = await this.getAPIDetail('history');
         return new Date(history[key]);
+    }
+
+    /**
+     * Gets the projects that are remixes of the project.
+     * Yields from oldest to newest.
+     * @async
+     * @generator
+     * @yields {object} (TODO: Document this, too.)
+     */
+    getRemixes() {
+        return this.StreamUtil.projectStream(`projects/${this._id}/remixes`);
     }
 }
 

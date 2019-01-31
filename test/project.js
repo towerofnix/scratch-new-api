@@ -90,3 +90,25 @@ t.test('Basic API details', async t => {
     t.match(await testDetail('stats', project.getStats), stats);
     t.is(await testDetail('image', project.getThumbnailURL), image);
 });
+
+t.test('Stream functions', t => {
+    const id = 1;
+    const projectGenerator = {};
+
+    let passedEndpoint;
+
+    const project = new Project({
+        id,
+        StreamUtil: {
+            projectStream: baseEndpoint => {
+                passedEndpoint = baseEndpoint;
+                return projectGenerator;
+            }
+        }
+    });
+
+    t.is(project.getRemixes(), projectGenerator);
+    t.is(passedEndpoint, `projects/${id}/remixes`);
+
+    t.done();
+});
