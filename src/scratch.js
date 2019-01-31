@@ -18,7 +18,10 @@ const _User = require('./user');
  */
 class Scratch {
     /**
-     * Create the Scratch instance.
+     * Create the Scratch instance. Note that all parameters are optional - unless you're writing code in an
+     * intentionally-controlled environment (i.e. unit tests), you can typically just start using the library
+     * with the code 'new Scratch()'. (The same applies in most cases: If a function in a configuration object
+     * parameter is optional, you probably don't need to worry about it - just let it use the default value.)
      * @param {object} [config] - Configuration.
      * @param {function} [config.fetch] - Function to use for fetching data.
      * @param {function} [config.prompt] - Function to use for prompting input from the user.
